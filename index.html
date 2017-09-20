@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+	
+	*{
+		margin:0px;
+		padding:0px;
+	}
+	body{
+		background:rgba(225,225,225,.7);
+	}
+	#map{
+		position:relative;
+		width:600px;
+		height:400px;
+		background-color:black;
+		margin:100px auto;
+	}
+	
+	ul{
+		position:absolute;
+		list-style:none;
+		left:0px;
+		height:20px;
+		width:100%;
+		display: flex;
+	}
+	
+	#ul01{
+		top:0px;
+	}
+	
+	#ul02{
+		top:20px;
+	}
+	
+	#ul03{
+		top:40px;
+	}
+	
+	li{
+		background:red;
+		height:20px;
+		width:20%;
+         
+		border:1px solid black;		
+	}
+	
+	#bottomBlock{
+		position:absolute;
+		border:1px solid black;
+		height:20px;
+		width:100px;
+		bottom:0;
+		left:0;
+		background:blue;
+	}
+	
+	#ball{
+		position:absolute;
+		left:0px;
+		top:0px;
+		width:25px;
+		height:25px;
+		border-radius:50%;
+		background-color:blue;
+	}
+	
+	</style>
+	</head>
+	<body>
+		<div id="map">
+			<ul id="ul01">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+			<ul  id="ul02">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+			<ul id="ul03">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+			<div id="ball">
+				
+			</div>
+			<div id="bottomBlock">
+				
+			</div>
+		</div>
+	</body>
+</html>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/moveJS1705.js"></script>
+<script>
+	//首先考虑项目中有哪些类
+	//球球活动区域，即是活动地图map
+	//球球
+	//顶板砖
+	//地板砖
+	
+//用ES3中的够构造函数，prototype原型继承属性  、、给某一个构造函数添加属性与方法
+//活动区域
+function Map(obj){   //传的是实例的各个参数  、、obj只是形参
+	this.domObj=obj.domObj;
+	this.width=obj.width;
+	this.height=obj.height;
+	this.backgroundColor=obj.backgroundColor;
+	this.topBlocks=[];  //顶板砖
+	this.bottomBlock=null;
+	
+}
+//给地图初始化界面   即是给构造函数的原型属性增加一个init的方法
+
+Map.prototype.initUI=function(){
+	this.domObj.style.width=this.width+"px";
+	this.domObj.style.height=this.height+"px";
+	this.domObj.style.backgroundColor=this.backgroundColor;
+	
+}
+
+//球球
+function Ball(obj){
+	this.map=map;
+	this.domObj=obj.domObj;
+	this.width=obj.width;
+	this.height=obj.height;
+	this.maxHeight=obj.maxHeight;
+	this.maxWidth=obj.maxWidth;
+	this.color=obj.color;
+	//因为球球是运动的所以有增量
+	this.incLeft=obj.incLeft;
+	this.incTop=obj.incTop;
+	
+	//球球定位也有自己的当前的位置
+	this.currLeft=obj.currLeft;
+	this.currTop=obj.currTop;
+	
+	this.timeSpace=obj.timeSpace;
+	this.timer=null;
+	
+}
+
+//球球的原型属性方法有很多，所以下一个json对象
+ball.prototype={
+	//首先球球可以移动
+	   
+	startMove:function(){
+		var that=this;//this指的是new出来的球球
+		this.timer=setInterval(function(){
+			that.goStep();  //球球移动在一定的时间间隔内调用goStep函数
+		},this.timeSpace);
+	},
+	goStep:function(){
+		//计算数据
+	   //球球的当前位置
+	   this.currLeft=this.currLeft+this.incLeft;
+	   this.currTop=this.currTop+this.incTop;
+	   //考虑边界
+	   
+	   if(this.currLeft<0){
+	   	   this.currLeft=0;
+	   	   this.incLeft=Math.abs(this.incLeft);
+	   }else if(this.Left>this.maxWidth-this.width){
+	   	     this.Left=this.maxWidth-this.width;
+	   	     this.incLeft=-1*Math.abs(this.incLeft);
+	   }
+	   
+	   if(this.currTop<3*20){  //球球的当前位置距离顶板离得很近，撞上了
+	   	     this.currTop=3*20;
+	   	     this.incTop=Math.abs(this.incTop);
+	   }else{  //下边界考虑的很多
+	   	   let minLeft=this.map.bottomBlock.left;
+	   	   let maxLeft=this.map.bottomBlock.left+this.map.bottomBlock.width;
+	   	   if
+	   }
+	}
+}
+
+
+
+window.onload=function(){
+	//确定活动区域
+	var map=new Map({
+		domObj:$("#map")[0],
+		width:600,
+		height:400,
+		backgroundColor:"black"
+	});
+	map.initUI();   //给实例的map界面初始化界面  即是给地图添加宽高
+}
+</script>
